@@ -1,0 +1,2 @@
+include ':atinternet-dispatcher'
+rootProject.name='android-atinternet-dispatcher'
