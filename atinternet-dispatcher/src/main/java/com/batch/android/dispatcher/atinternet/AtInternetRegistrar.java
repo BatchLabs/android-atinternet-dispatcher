@@ -19,8 +19,8 @@ public class AtInternetRegistrar implements DispatcherRegistrar
 
     /**
      * Singleton accessor
-     * @param context
-     * @return
+     * @param context Context used to initialize the dispatcher
+     * @return Dispatcher instance
      */
     @Override
     public BatchEventDispatcher getDispatcher(Context context)

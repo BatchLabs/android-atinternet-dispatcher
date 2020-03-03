@@ -6,6 +6,10 @@
 /captures
 .externalNativeBuild
 .cxx
+release/
+
 
 /.idea/*
 !/.idea/runConfigurations/
+/batch-maven-secret-gpg.key
+/maven.properties

@@ -6,7 +6,7 @@
             android:name="com.batch.android.eventdispatcher.DispatcherDiscoveryService"
             android:exported="false">
             <meta-data
-                android:name="com.batch.android.eventdispatcher:com.batch.android.dispatcher.atinternet.AtInternetDispatcher"
+                android:name="com.batch.android.eventdispatcher:com.batch.android.dispatcher.atinternet.AtInternetRegistrar"
                 android:value="com.batch.android.eventdispatcher.DispatcherRegistrar" />
         </service>
     </application>
