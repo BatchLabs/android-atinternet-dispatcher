@@ -13,10 +13,10 @@ jobs:
       - name: Run CI
         run: make ci
       - name: Upload SonarCloud
-          env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: make sonar
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: make sonar
       - name: Upload artifact
         if: github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@v1
