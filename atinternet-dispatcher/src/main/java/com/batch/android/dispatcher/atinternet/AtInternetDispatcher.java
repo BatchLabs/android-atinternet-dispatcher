@@ -3,6 +3,7 @@ package com.batch.android.dispatcher.atinternet;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.atinternet.tracker.ATInternet;
 import com.atinternet.tracker.Publisher;
@@ -73,7 +74,24 @@ public class AtInternetDispatcher implements BatchEventDispatcher
 
     }
 
+    /**
+     Specify the ATInternet {@link Tracker} instance that the dispatcher should use.
+     If set to null (its default value), Batch will automatically instantiate its own trackers
+     using the default configuration.
+     This method is useful if you set your {@link Tracker} instances in your code.
+     */
+    public void setTrackerOverride(@Nullable Tracker trackerOverride) {
+        this.trackerOverride = trackerOverride;
+        if (trackerOverride == null) {
+            clearTrackerCache();
+        }
+    }
+
     private Tracker getTracker(@NonNull String trackerName) {
+        if (trackerOverride != null) {
+            return trackerOverride;
+        }
+
         Tracker tracker = trackerCache.get(trackerName);
         if (tracker == null) {
             synchronized (trackerCache) {
