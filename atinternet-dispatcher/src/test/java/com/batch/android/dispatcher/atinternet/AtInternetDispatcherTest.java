@@ -55,13 +55,13 @@ public class AtInternetDispatcherTest
 
         PowerMockito.mockStatic(ATInternet.class);
         Mockito.when(ATInternet.getInstance()).thenReturn(atInternet);
-        Mockito.when(atInternet.getDefaultTracker()).thenReturn(tracker);
-        Mockito.when(atInternet.getTracker(AtInternetDispatcher.BATCH_PUBLISHER_TRACKER)).thenReturn(tracker);
-        Mockito.when(atInternet.getTracker(AtInternetDispatcher.BATCH_CAMPAIGN_TRACKER)).thenReturn(tracker);
+        Mockito.when(atInternet.getDefaultTracker()).thenThrow(new RuntimeException("getDefaultTracker should not be called"));
+        Mockito.when(atInternet.getTracker(Mockito.any())).thenThrow(new RuntimeException("getTracker should not be called"));
         Mockito.when(tracker.Publishers()).thenReturn(publishers);
         Mockito.when(tracker.Screens()).thenReturn(screens);
 
         atInternetDispatcher = new AtInternetDispatcher();
+        atInternetDispatcher.setTrackerOverride(tracker);
     }
 
     @Test
