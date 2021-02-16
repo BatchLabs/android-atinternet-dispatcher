@@ -1,3 +1,12 @@
+UPCOMING
+-----
+
+ * Changed `AtInternetRegistrar.getInstance()`'s type to AtInternetDispatcher so that methods specific to this dispatcher can be easily called.  
+
+ * Added the ability to set your own ATInternet `Tracker` instance using `setTrackerOverride()` on `AtInternetDispatcher`.  
+   Use `AtInternetRegistrar` to get the instance of this class.
+   Ex: `AtInternetRegistrar.getInstance().setTrackerOverride(myTracker)`  
+
 1.0
 -----
 
