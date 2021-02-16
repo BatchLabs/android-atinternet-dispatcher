@@ -4,6 +4,21 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * Class to parse and validate a XTOR string.
+ *
+ * XTOR format: A-B-[C]-[D]-[E]-[F]-[G]-[H]
+ * A: Source prefix, see {@link Xtor#XTOR_PREFIX}.
+ * B: value of the campaign ID.
+ * C: creative (according to the format [label] or id[label]).
+ * D: variant (according to the format [label] or id[label]).
+ * E: format (according to the ID given by AT Internet: see appendix.
+ * F: website (specifies the URL according to the format [url]).
+ * G: general position on the overall website.
+ * H: details of the position on the web page.
+ *
+ * We need to parse the XTOR to retrieve the campaign ID when dispatching on OnSiteAds.
+ */
 class Xtor {
 
     private static final String[] XTOR_PREFIX = {
