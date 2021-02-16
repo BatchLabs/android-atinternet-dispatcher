@@ -55,13 +55,13 @@ public class AtInternetDispatcherTest
 
         PowerMockito.mockStatic(ATInternet.class);
         Mockito.when(ATInternet.getInstance()).thenReturn(atInternet);
-        Mockito.when(atInternet.getDefaultTracker()).thenReturn(tracker);
-        Mockito.when(atInternet.getTracker(AtInternetDispatcher.BATCH_PUBLISHER_TRACKER)).thenReturn(tracker);
-        Mockito.when(atInternet.getTracker(AtInternetDispatcher.BATCH_CAMPAIGN_TRACKER)).thenReturn(tracker);
+        Mockito.when(atInternet.getDefaultTracker()).thenThrow(new RuntimeException("getDefaultTracker should not be called"));
+        Mockito.when(atInternet.getTracker(Mockito.any())).thenThrow(new RuntimeException("getTracker should not be called"));
         Mockito.when(tracker.Publishers()).thenReturn(publishers);
         Mockito.when(tracker.Screens()).thenReturn(screens);
 
         atInternetDispatcher = new AtInternetDispatcher();
+        atInternetDispatcher.setTrackerOverride(tracker);
     }
 
     @Test
@@ -691,73 +691,4 @@ public class AtInternetDispatcherTest
         Mockito.verify(screen).sendView();
     }
 
-    private static class TestEventPayload implements Batch.EventDispatcher.Payload {
-
-        private String trackingId;
-        private String deeplink;
-        private Bundle customPayload;
-        private boolean isPositive;
-
-        TestEventPayload(String trackingId,
-                                String deeplink,
-                                Bundle customPayload)
-        {
-           this(trackingId, deeplink, customPayload, false);
-        }
-
-        TestEventPayload(String trackingId,
-                                String deeplink,
-                                Bundle customPayload,
-                                boolean isPositive)
-        {
-            this.trackingId = trackingId;
-            this.deeplink = deeplink;
-            this.customPayload = customPayload;
-            this.isPositive = isPositive;
-        }
-
-        @Nullable
-        @Override
-        public String getTrackingId()
-        {
-            return trackingId;
-        }
-
-        @Nullable
-        @Override
-        public String getDeeplink()
-        {
-            return deeplink;
-        }
-
-        @Override
-        public boolean isPositiveAction()
-        {
-            return isPositive;
-        }
-
-        @Nullable
-        @Override
-        public String getCustomValue(@NonNull String key)
-        {
-            if (customPayload == null) {
-                return null;
-            }
-            return customPayload.getString(key);
-        }
-
-        @Nullable
-        @Override
-        public BatchMessage getMessagingPayload()
-        {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public BatchPushPayload getPushPayload()
-        {
-            return null;
-        }
-    }
 }

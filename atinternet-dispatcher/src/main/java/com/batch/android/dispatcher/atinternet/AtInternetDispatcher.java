@@ -3,6 +3,7 @@ package com.batch.android.dispatcher.atinternet;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.atinternet.tracker.ATInternet;
 import com.atinternet.tracker.Publisher;
@@ -40,13 +41,13 @@ public class AtInternetDispatcher implements BatchEventDispatcher
     private static final String MESSAGING_CLICK_NAME = "ClickedBatchInAppMessage";
     private static final String UNKNOWN_EVENT_NAME = "UnknownBatchMessage";
 
-    private Tracker publisherTracker;
-    private Tracker campaignTracker;
+    private final Map<String, Tracker> trackerCache;
+
+    private Tracker trackerOverride;
 
     AtInternetDispatcher()
     {
-        campaignTracker = ATInternet.getInstance().getTracker(BATCH_CAMPAIGN_TRACKER);
-        publisherTracker = ATInternet.getInstance().getTracker(BATCH_PUBLISHER_TRACKER);
+        trackerCache = new HashMap<>();
     }
 
     /**
@@ -65,12 +66,49 @@ public class AtInternetDispatcher implements BatchEventDispatcher
             dispatchAsOnSiteAd(type, payload, xtorTag);
         }
 
-        Screen screen = campaignTracker.Screens().add(getATEventName(type));
+        Screen screen = getTracker(BATCH_CAMPAIGN_TRACKER).Screens().add(getATEventName(type));
         if (xtorTag != null) {
             screen.Campaign(xtorTag);
         }
         screen.sendView();
 
+    }
+
+    /**
+     Specify the ATInternet {@link Tracker} instance that the dispatcher should use.
+     If set to null (its default value), Batch will automatically instantiate its own trackers
+     using the default configuration.
+     This method is useful if you set your {@link Tracker} instances in your code.
+     */
+    public void setTrackerOverride(@Nullable Tracker trackerOverride) {
+        this.trackerOverride = trackerOverride;
+        if (trackerOverride == null) {
+            clearTrackerCache();
+        }
+    }
+
+    private Tracker getTracker(@NonNull String trackerName) {
+        if (trackerOverride != null) {
+            return trackerOverride;
+        }
+
+        Tracker tracker = trackerCache.get(trackerName);
+        if (tracker == null) {
+            synchronized (trackerCache) {
+                tracker = trackerCache.get(trackerName);
+                if (tracker == null) {
+                    tracker = ATInternet.getInstance().getTracker(trackerName);
+                    trackerCache.put(trackerName, tracker);
+                }
+            }
+        }
+        return tracker;
+    }
+
+    private void clearTrackerCache() {
+        synchronized (trackerCache) {
+            trackerCache.clear();
+        }
     }
 
     private void dispatchAsOnSiteAd(Batch.EventDispatcher.Type type, Batch.EventDispatcher.Payload payload, String xtorTag) {
@@ -85,6 +123,7 @@ public class AtInternetDispatcher implements BatchEventDispatcher
             }
         }
 
+        Tracker publisherTracker = getTracker(BATCH_PUBLISHER_TRACKER);
         if (campaign != null && !campaign.isEmpty()) {
             publisher = publisherTracker.Publishers().add(campaign);
         } else {
