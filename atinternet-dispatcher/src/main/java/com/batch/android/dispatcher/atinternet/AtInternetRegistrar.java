@@ -2,7 +2,6 @@ package com.batch.android.dispatcher.atinternet;
 
 import android.content.Context;
 
-import com.batch.android.BatchEventDispatcher;
 import com.batch.android.eventdispatcher.DispatcherRegistrar;
 
 /**
@@ -23,7 +22,7 @@ public class AtInternetRegistrar implements DispatcherRegistrar
      * @return Dispatcher instance
      */
     @Override
-    public BatchEventDispatcher getDispatcher(Context context)
+    public AtInternetDispatcher getDispatcher(Context context)
     {
         if (instance == null) {
             instance = new AtInternetDispatcher();
