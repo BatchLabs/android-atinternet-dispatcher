@@ -1,4 +1,4 @@
-UPCOMING
+1.1.0
 -----
 
  * Changed `AtInternetRegistrar.getInstance()`'s type to AtInternetDispatcher so that methods specific to this dispatcher can be easily called.  
