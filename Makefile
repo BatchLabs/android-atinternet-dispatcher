@@ -29,4 +29,7 @@ lint:
 
 ci: clean lint test-coverage aar
 
-.PHONY: ci sonar check-token
+publish: aar
+	./gradlew atinternet-dispatcher:publish
+
+.PHONY: ci sonar check-token publish aar
