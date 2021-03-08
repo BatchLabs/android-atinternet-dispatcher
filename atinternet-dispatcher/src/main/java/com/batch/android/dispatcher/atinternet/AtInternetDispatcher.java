@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.atinternet.tracker.ATInternet;
+import com.atinternet.tracker.CustomVar;
 import com.atinternet.tracker.Publisher;
 import com.atinternet.tracker.Screen;
 import com.atinternet.tracker.Tracker;
@@ -37,8 +38,10 @@ public class AtInternetDispatcher implements BatchEventDispatcher
     private static final String NOTIFICATION_DISMISS_NAME = "DismissedBatchPushNotification";
     private static final String MESSAGING_SHOW_NAME = "ShowedBatchInAppMessage";
     private static final String MESSAGING_CLOSE_NAME = "ClosedBatchInAppMessage";
+    private static final String MESSAGING_CLOSE_ERROR_NAME = "ClosedErrorBatchInAppMessage";
     private static final String MESSAGING_AUTO_CLOSE_NAME = "AutoClosedBatchInAppMessage";
     private static final String MESSAGING_CLICK_NAME = "ClickedBatchInAppMessage";
+    private static final String MESSAGING_WEBVIEW_CLICK_NAME = "WebViewClickedBatchInAppMessage";
     private static final String UNKNOWN_EVENT_NAME = "UnknownBatchMessage";
 
     private final Map<String, Tracker> trackerCache;
@@ -70,8 +73,12 @@ public class AtInternetDispatcher implements BatchEventDispatcher
         if (xtorTag != null) {
             screen.Campaign(xtorTag);
         }
-        screen.sendView();
 
+        String webViewButtonId = payload.getWebViewAnalyticsID();
+        if (webViewButtonId != null) {
+            screen.CustomVars().add(1, webViewButtonId, CustomVar.CustomVarType.Screen);
+        }
+        screen.sendView();
     }
 
     /**
@@ -137,9 +144,16 @@ public class AtInternetDispatcher implements BatchEventDispatcher
         }
         publisher.setAdvertiserId("[batch]");
 
+        String webViewButtonId = payload.getWebViewAnalyticsID();
+        if (webViewButtonId != null) {
+            publisher.setVariant("[" + webViewButtonId + "]");
+        }
+
         if (isImpression(type)) {
             publisher.sendImpression();
-        } else if (isClick(type) && payload.isPositiveAction()) {
+        } else if (isClick(type) &&
+                (payload.isPositiveAction() || type == Batch.EventDispatcher.Type.MESSAGING_WEBVIEW_CLICK)) {
+            // We send the click if it's a positive action or if it's a click inside a WebView In-App
             publisher.sendTouch();
         }
     }
@@ -200,7 +214,8 @@ public class AtInternetDispatcher implements BatchEventDispatcher
 
     private static boolean isClick(Batch.EventDispatcher.Type type) {
         return type.equals(Batch.EventDispatcher.Type.NOTIFICATION_OPEN) ||
-                type.equals(Batch.EventDispatcher.Type.MESSAGING_CLICK);
+                type.equals(Batch.EventDispatcher.Type.MESSAGING_CLICK) ||
+                type.equals(Batch.EventDispatcher.Type.MESSAGING_WEBVIEW_CLICK);
     }
 
     private static Map<String, String> getFragmentMap(String fragment)
@@ -230,8 +245,12 @@ public class AtInternetDispatcher implements BatchEventDispatcher
                 return MESSAGING_CLOSE_NAME;
             case MESSAGING_AUTO_CLOSE:
                 return MESSAGING_AUTO_CLOSE_NAME;
+            case MESSAGING_CLOSE_ERROR:
+                return MESSAGING_CLOSE_ERROR_NAME;
             case MESSAGING_CLICK:
                 return MESSAGING_CLICK_NAME;
+            case MESSAGING_WEBVIEW_CLICK:
+                return MESSAGING_WEBVIEW_CLICK_NAME;
         }
         return UNKNOWN_EVENT_NAME;
     }

@@ -4,6 +4,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.atinternet.tracker.ATInternet;
+import com.atinternet.tracker.CustomVar;
+import com.atinternet.tracker.CustomVars;
 import com.atinternet.tracker.Publisher;
 import com.atinternet.tracker.Publishers;
 import com.atinternet.tracker.Screen;
@@ -75,6 +77,7 @@ public class AtInternetDispatcherTest
 
         TestEventPayload payload = new TestEventPayload(null,
                 null,
+                null,
                 new Bundle());
 
         atInternetDispatcher.dispatchEvent(Batch.EventDispatcher.Type.NOTIFICATION_DISPLAY, payload);
@@ -103,6 +106,7 @@ public class AtInternetDispatcherTest
         Mockito.when(screens.add("DisplayedBatchPushNotification")).thenReturn(screen);
 
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 "https://batch.com.com/test#xtor=" + xtor,
                 new Bundle());
 
@@ -133,6 +137,7 @@ public class AtInternetDispatcherTest
         Mockito.when(screens.add("DisplayedBatchPushNotification")).thenReturn(screen);
 
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 "https://batch.com/test#xtor=" + xtor,
                 new Bundle());
 
@@ -162,6 +167,7 @@ public class AtInternetDispatcherTest
         Mockito.when(screens.add("DisplayedBatchPushNotification")).thenReturn(screen);
 
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 "batch://?xtor=" + xtor,
                 new Bundle());
 
@@ -191,6 +197,7 @@ public class AtInternetDispatcherTest
         Mockito.when(screens.add("DisplayedBatchPushNotification")).thenReturn(screen);
 
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 "batch://#xtor=" + xtor,
                 new Bundle());
 
@@ -220,6 +227,7 @@ public class AtInternetDispatcherTest
         Mockito.when(screens.add("OpenedBatchPushNotification")).thenReturn(screen);
 
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 "https://batch.com/test?xtor=" + xtor,
                 new Bundle(), true);
 
@@ -250,6 +258,7 @@ public class AtInternetDispatcherTest
         Mockito.when(screens.add("OpenedBatchPushNotification")).thenReturn(screen);
 
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 "https://batch.com/test?xtor=" + xtor,
                 new Bundle(), true);
 
@@ -282,6 +291,7 @@ public class AtInternetDispatcherTest
         customPayload.putString("xtor", xtor);
         TestEventPayload payload = new TestEventPayload(null,
                 null,
+                null,
                 customPayload, true);
 
         atInternetDispatcher.dispatchEvent(Batch.EventDispatcher.Type.NOTIFICATION_OPEN, payload);
@@ -312,6 +322,7 @@ public class AtInternetDispatcherTest
         Bundle customPayload = new Bundle();
         TestEventPayload payload = new TestEventPayload(xtor,
                 null,
+                null,
                 customPayload, true);
 
         atInternetDispatcher.dispatchEvent(Batch.EventDispatcher.Type.NOTIFICATION_OPEN, payload);
@@ -339,6 +350,7 @@ public class AtInternetDispatcherTest
         Bundle customPayload = new Bundle();
         TestEventPayload payload = new TestEventPayload(null,
                 null,
+                null,
                 customPayload, false);
 
         atInternetDispatcher.dispatchEvent(Batch.EventDispatcher.Type.NOTIFICATION_OPEN, payload);
@@ -365,6 +377,7 @@ public class AtInternetDispatcherTest
         Bundle customPayload = new Bundle();
         customPayload.putString("xtor", xtor);
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 "https://batch.com/test?xtor=AD-[fake]#xtor=CS8-[fake2]",
                 customPayload, true);
 
@@ -394,6 +407,7 @@ public class AtInternetDispatcherTest
 
         Bundle customPayload = new Bundle();
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 " \n               https://batch.com/test?xtor=AD-[fake]          \n ",
                 customPayload, true);
 
@@ -421,6 +435,7 @@ public class AtInternetDispatcherTest
 
         TestEventPayload payload = new TestEventPayload(null,
                 null,
+                null,
                 new Bundle(), true);
 
         atInternetDispatcher.dispatchEvent(Batch.EventDispatcher.Type.NOTIFICATION_OPEN, payload);
@@ -447,6 +462,7 @@ public class AtInternetDispatcherTest
 
         TestEventPayload payload = new TestEventPayload(null,
                 null,
+                null,
                 new Bundle(), true);
 
         atInternetDispatcher.dispatchEvent(Batch.EventDispatcher.Type.NOTIFICATION_DISMISS, payload);
@@ -468,6 +484,7 @@ public class AtInternetDispatcherTest
         Mockito.when(screens.add("ShowedBatchInAppMessage")).thenReturn(screen);
 
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 null,
                 new Bundle());
 
@@ -495,6 +512,7 @@ public class AtInternetDispatcherTest
         Mockito.when(screens.add("ShowedBatchInAppMessage")).thenReturn(screen);
 
         TestEventPayload payload = new TestEventPayload(xtor,
+                null,
                 null,
                 new Bundle());
 
@@ -524,6 +542,7 @@ public class AtInternetDispatcherTest
         Mockito.when(screens.add("ShowedBatchInAppMessage")).thenReturn(screen);
 
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 "https://batch.com/test#XtOr=" + xtor,
                 new Bundle());
 
@@ -553,6 +572,7 @@ public class AtInternetDispatcherTest
         Mockito.when(screens.add("ShowedBatchInAppMessage")).thenReturn(screen);
 
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 "https://batch.com/test?XTor=" + xtor,
                 new Bundle());
 
@@ -582,6 +602,7 @@ public class AtInternetDispatcherTest
 
         TestEventPayload payload = new TestEventPayload(xtor,
                 null,
+                null,
                 new Bundle(), true);
 
         atInternetDispatcher.dispatchEvent(Batch.EventDispatcher.Type.MESSAGING_CLICK, payload);
@@ -598,6 +619,42 @@ public class AtInternetDispatcherTest
     }
 
     @Test
+    public void testInAppWebViewClickCampaignLabel() {
+        String xtor = "EPR-[mylabel]-totot-titi";
+        String campaignExpected = "[mylabel]";
+        String webViewButtonIdExpected = "jesuisunbouton";
+
+        Publisher publisher = PowerMockito.mock(Publisher.class);
+        Mockito.when(publishers.add(campaignExpected)).thenReturn(publisher);
+
+        Screen screen = PowerMockito.mock(Screen.class);
+        CustomVars customVars = PowerMockito.mock(CustomVars.class);
+        Mockito.when(screens.add("WebViewClickedBatchInAppMessage")).thenReturn(screen);
+        Mockito.when(screen.CustomVars()).thenReturn(customVars);
+
+        TestEventPayload payload = new TestEventPayload(xtor,
+                webViewButtonIdExpected,
+                null,
+                new Bundle(), true);
+
+        atInternetDispatcher.dispatchEvent(Batch.EventDispatcher.Type.MESSAGING_WEBVIEW_CLICK, payload);
+
+        Mockito.verify(publishers).add(Mockito.eq(campaignExpected));
+        Mockito.verify(publisher).setAdvertiserId(Mockito.eq("[batch]"));
+        Mockito.verify(publisher).setFormat(Mockito.eq("[in-app]"));
+        Mockito.verify(publisher).setVariant(Mockito.eq("[" + webViewButtonIdExpected + "]"));
+        Mockito.verify(publisher).sendTouch();
+        Mockito.verify(publisher, Mockito.never()).sendImpression();
+
+        Mockito.verify(screens).add(Mockito.eq("WebViewClickedBatchInAppMessage"));
+        Mockito.verify(screen).Campaign(xtor);
+        Mockito.verify(screen).sendView();
+
+        Mockito.verify(screen).CustomVars();
+        Mockito.verify(customVars).add(1, webViewButtonIdExpected, CustomVar.CustomVarType.Screen);
+    }
+
+    @Test
     public void testInAppClickNonPositive() {
 
         Publisher publisher = PowerMockito.mock(Publisher.class);
@@ -607,6 +664,7 @@ public class AtInternetDispatcherTest
         Mockito.when(screens.add("ClickedBatchInAppMessage")).thenReturn(screen);
 
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 null,
                 new Bundle(), false);
 
@@ -630,6 +688,7 @@ public class AtInternetDispatcherTest
         Mockito.when(screens.add("ClickedBatchInAppMessage")).thenReturn(screen);
 
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 null,
                 new Bundle(), true);
 
@@ -657,6 +716,7 @@ public class AtInternetDispatcherTest
 
         TestEventPayload payload = new TestEventPayload(null,
                 null,
+                null,
                 new Bundle());
 
         atInternetDispatcher.dispatchEvent(Batch.EventDispatcher.Type.MESSAGING_CLOSE, payload);
@@ -664,6 +724,29 @@ public class AtInternetDispatcherTest
         Mockito.verify(publisher, Mockito.never()).sendTouch();
 
         Mockito.verify(screens).add(Mockito.eq("ClosedBatchInAppMessage"));
+        Mockito.verify(screen, Mockito.never()).Campaign(Mockito.anyString());
+        Mockito.verify(screen).sendView();
+    }
+
+    @Test
+    public void testInAppCloseError() {
+
+        Publisher publisher = PowerMockito.mock(Publisher.class);
+        Mockito.when(publishers.add("[batch-default-campaign]")).thenReturn(publisher);
+
+        Screen screen = PowerMockito.mock(Screen.class);
+        Mockito.when(screens.add("ClosedErrorBatchInAppMessage")).thenReturn(screen);
+
+        TestEventPayload payload = new TestEventPayload(null,
+                null,
+                null,
+                new Bundle());
+
+        atInternetDispatcher.dispatchEvent(Batch.EventDispatcher.Type.MESSAGING_CLOSE_ERROR, payload);
+        Mockito.verify(publisher, Mockito.never()).sendImpression();
+        Mockito.verify(publisher, Mockito.never()).sendTouch();
+
+        Mockito.verify(screens).add(Mockito.eq("ClosedErrorBatchInAppMessage"));
         Mockito.verify(screen, Mockito.never()).Campaign(Mockito.anyString());
         Mockito.verify(screen).sendView();
     }
@@ -678,6 +761,7 @@ public class AtInternetDispatcherTest
         Mockito.when(screens.add("AutoClosedBatchInAppMessage")).thenReturn(screen);
 
         TestEventPayload payload = new TestEventPayload(null,
+                null,
                 null,
                 new Bundle());
 

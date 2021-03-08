@@ -13,6 +13,7 @@ public class TestEventPayload implements Batch.EventDispatcher.Payload {
 
     private String trackingId;
     private String deeplink;
+    private String webViewAnalyticsID;
     private Bundle customPayload;
     private boolean isPositive;
 
@@ -20,15 +21,25 @@ public class TestEventPayload implements Batch.EventDispatcher.Payload {
                      String deeplink,
                      Bundle customPayload)
     {
-        this(trackingId, deeplink, customPayload, false);
+        this(trackingId, null, deeplink, customPayload, false);
     }
 
     TestEventPayload(String trackingId,
+                     String webViewAnalyticsID,
+                     String deeplink,
+                     Bundle customPayload)
+    {
+        this(trackingId, webViewAnalyticsID, deeplink, customPayload, false);
+    }
+
+    TestEventPayload(String trackingId,
+                     String webViewAnalyticsID,
                      String deeplink,
                      Bundle customPayload,
                      boolean isPositive)
     {
         this.trackingId = trackingId;
+        this.webViewAnalyticsID = webViewAnalyticsID;
         this.deeplink = deeplink;
         this.customPayload = customPayload;
         this.isPositive = isPositive;
@@ -76,5 +87,10 @@ public class TestEventPayload implements Batch.EventDispatcher.Payload {
     public BatchPushPayload getPushPayload()
     {
         return null;
+    }
+
+    @Nullable
+    public String getWebViewAnalyticsID() {
+        return webViewAnalyticsID;
     }
 }
