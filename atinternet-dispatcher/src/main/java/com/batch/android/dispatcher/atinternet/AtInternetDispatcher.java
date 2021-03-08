@@ -86,6 +86,8 @@ public class AtInternetDispatcher implements BatchEventDispatcher
      If set to null (its default value), Batch will automatically instantiate its own trackers
      using the default configuration.
      This method is useful if you set your {@link Tracker} instances in your code.
+
+     @param trackerOverride Tracker instance to use. null if Batch should use its default one.
      */
     public void setTrackerOverride(@Nullable Tracker trackerOverride) {
         this.trackerOverride = trackerOverride;
