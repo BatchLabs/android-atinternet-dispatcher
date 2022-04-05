@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    api 'com.batch.android:batch-sdk:1.17.0'
+    api 'com.batch.android:batch-sdk:1.19.0'
     api "com.atinternet:Tracker:$atInternetVersion"
     implementation "androidx.annotation:annotation:$androidXLibraryVersion"
 
