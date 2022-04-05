@@ -25,6 +25,13 @@ import java.util.Set;
  */
 public class AtInternetDispatcher implements BatchEventDispatcher
 {
+
+    /**
+     * Batch internal dispatcher information used for analytics
+     */
+    private static final String DISPATCHER_NAME = "at_internet";
+    private static final int DISPATCHER_VERSION = 1;
+
     private static final String XTOR = "xtor";
     private static final String BATCH_DEFAULT_CAMPAIGN = "[batch-default-campaign]";
     public static final String BATCH_CAMPAIGN_TRACKER = "batch-campaign-tracker";
@@ -257,4 +264,14 @@ public class AtInternetDispatcher implements BatchEventDispatcher
         return UNKNOWN_EVENT_NAME;
     }
 
+    @Nullable
+    @Override
+    public String getName() {
+        return DISPATCHER_NAME;
+    }
+
+    @Override
+    public int getVersion() {
+        return DISPATCHER_VERSION;
+    }
 }
