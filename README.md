@@ -14,8 +14,8 @@ A "ready-to-go" dispatcher that reflect event from the Batch SDK to the At Inter
 # Requirements
  - Android Studio 3.0+
  - Android 15+
- - Batch Android SDK 1.15.0+
- - AT Internet SDK 2.13.2+
+ - Batch Android SDK 1.19.0+
+ - AT Internet SDK 2.14.0+
 
 # Installation
 Gradle (recommended)
