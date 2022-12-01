@@ -58,9 +58,9 @@ publishing {
                 url = "https://batch.com"
 
                 scm {
-                    url = "https://github.com/BatchLabs/android-atinternet-dispatcher"
-                    connection = "scm:git:https://github.com/BatchLabs/android-atinternet-dispatcher.git"
-                    developerConnection = "scm:git:https://github.com/BatchLabs/android-atinternet-dispatcher.git"
+                    url = "https://github.com/BatchLabs/Batch-Android-atinternet-dispatcher"
+                    connection = "scm:git:https://github.com/BatchLabs/Batch-Android-atinternet-dispatcher.git"
+                    developerConnection = "scm:git:https://github.com/BatchLabs/Batch-Android-atinternet-dispatcher.git"
                 }
 
                 licenses {
