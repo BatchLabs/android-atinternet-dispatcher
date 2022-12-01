@@ -5,7 +5,7 @@
 Batch.com Android AT Internet Dispatcher
 ==================
 
-![Logo](http://batch-doc.s3.amazonaws.com/logo_batch_192.gif)
+![Logo](https://static.batch.com/documentation/Readmes/logo_batch_full_178.png)
 
 # About
 
