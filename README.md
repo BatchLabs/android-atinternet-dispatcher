@@ -21,7 +21,7 @@ A "ready-to-go" dispatcher that reflect event from the Batch SDK to the At Inter
 Gradle (recommended)
 
 ```
-implementation 'com.batch.android:atinternet-dispatcher:1.0+'
+implementation 'com.batch.android:atinternet-dispatcher:3.0+'
 ```
 
 Read our [setup documentation](https://doc.batch.com/) to follow a step by step tutorial for integrating Batch features into your app.
