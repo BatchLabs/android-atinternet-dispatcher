@@ -1,6 +1,7 @@
 package com.batch.android.dispatcher.atinternet;
 
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -189,24 +190,30 @@ public class AtInternetDispatcher implements BatchEventDispatcher
         String tag = null;
         String deeplink = payload.getDeeplink();
         if (deeplink != null) {
-            deeplink = deeplink.trim();
-            tagName = tagName.toLowerCase();
-            Uri uri = Uri.parse(deeplink);
+            try {
+                deeplink = deeplink.trim();
+                tagName = tagName.toLowerCase();
+                Uri uri = Uri.parse(deeplink);
 
-            String fragment = uri.getFragment();
-            if (fragment != null && !fragment.isEmpty()) {
-                Map<String, String> fragments = getFragmentMap(fragment);
-                String tagTmp = fragments.get(tagName);
-                if (tagTmp != null) {
-                    tag =  tagTmp;
-                }
-            }
+                String fragment = uri.getFragment();
+                if (uri.isHierarchical()) {
+                    if (fragment != null && !fragment.isEmpty()) {
+                        Map<String, String> fragments = getFragmentMap(fragment);
+                        String tagTmp = fragments.get(tagName);
+                        if (tagTmp != null) {
+                            tag =  tagTmp;
+                        }
+                    }
 
-            Set<String> keys = uri.getQueryParameterNames();
-            for (String key : keys) {
-                if (tagName.equalsIgnoreCase(key)) {
-                    return uri.getQueryParameter(key);
+                    Set<String> keys = uri.getQueryParameterNames();
+                    for (String key : keys) {
+                        if (tagName.equalsIgnoreCase(key)) {
+                            return uri.getQueryParameter(key);
+                        }
+                    }
                 }
+            } catch (Exception e) {
+                Log.e("Batch", "Something went wrong parsing deeplink: " + e.getLocalizedMessage());
             }
         }
         return tag;
